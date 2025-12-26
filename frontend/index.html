@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthBuddy - Your Trusted Healthcare Partner</title>
+  <link rel="stylesheet" href="ctyle.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo"><span class="logo-icon">🏥</span><span>HealthBuddy</span></div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#nearme" class="nav-link">Near Me</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <section id="home" class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1 class="hero-title">Your Health, Our Priority</h1>
+        <p class="hero-subtitle">Comprehensive healthcare services with AI-powered assistance, available 24/7 to support your wellness journey.</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" onclick="openChat('health')">Chat with HealthBuddy</button>
+          <button class="btn btn-primary" onclick="openChat('counselor')">Chat with MindBuddy</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Our Services</button>
+        </div>
+      </div>
+      <div class="hero-image"><div class="hero-illustration"><i class="fas fa-heartbeat"></i></div></div>
+    </div>
+  </section>
+
+  <section id="services" class="services">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Comprehensive healthcare solutions tailored to your needs</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-robot"></i></div>
+          <h3>AI Health Assistant</h3>
+          <p>Get instant health information and guidance from our AI-powered chatbot, available 24/7.</p>
+          <button class="service-btn" onclick="openChat('health')">Try Now</button>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-brain"></i></div>
+          <h3>Mental Health Counselor</h3>
+          <p>Talk to our compassionate AI counselor for emotional support and mental wellness guidance.</p>
+          <button class="service-btn" onclick="openChat('counselor')">Talk Now</button>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-calendar-check"></i></div>
+          <h3>Appointment Booking</h3>
+          <p>Schedule appointments with specialists easily through our online booking system.</p>
+          <button class="service-btn">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nearme" class="nearme">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Find Healthcare Facilities Near You</h2>
+        <p class="section-subtitle">Search for nearby pharmacies and hospitals</p>
+      </div>
+      <div class="nearme-content">
+        <div class="search-tabs">
+          <button class="search-tab active" onclick="switchSearchTab('all')" id="tab-all"><i class="fas fa-th"></i> All</button>
+          <button class="search-tab" onclick="switchSearchTab('pharmacy')" id="tab-pharmacy"><i class="fas fa-pills"></i> Pharmacies</button>
+          <button class="search-tab" onclick="switchSearchTab('hospital')" id="tab-hospital"><i class="fas fa-hospital"></i> Hospitals</button>
+        </div>
+        <div class="nearme-search">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="nearme-search-input" placeholder="Enter your location or use current location..." autocomplete="off"/>
+            <button class="btn-location" onclick="getCurrentLocation('nearme')" title="Use current location"><i class="fas fa-map-marker-alt"></i></button>
+          </div>
+          <button class="btn btn-primary" onclick="searchNearMe()">Search</button>
+        </div>
+        <div id="nearme-results" class="nearme-results">
+          <div class="nearme-placeholder"><i class="fas fa-map-marked-alt"></i><p>Enter your location to find nearby healthcare facilities</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text">
+          <h2 class="section-title">About HealthBuddy</h2>
+          <p>HealthBuddy is a modern healthcare platform designed to make quality healthcare accessible to everyone. We combine cutting-edge AI technology with compassionate care to provide you with the best health support possible.</p>
+          <p>Our mission is to empower individuals to take control of their health through innovative tools, expert guidance, and personalized care plans.</p>
+          <div class="stats">
+            <div class="stat-item"><h3>10K+</h3><p>Happy Patients</p></div>
+            <div class="stat-item"><h3>50+</h3><p>Expert Doctors</p></div>
+            <div class="stat-item"><h3>24/7</h3><p>AI Support</p></div>
+          </div>
+        </div>
+        <div class="about-image"><div class="about-illustration"><i class="fas fa-stethoscope"></i></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>HealthBuddy</h3>
+          <p>Your trusted healthcare partner, committed to providing quality care and innovative health solutions.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#nearme">Near Me</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#" onclick="openChat('health')">AI Health Assistant</a></li>
+            <li><a href="#" onclick="openChat('counselor')">Mental Health Counselor</a></li>
+            <li><a href="#nearme">Find Facilities</a></li>
+            <li><a href="#services">Appointments</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2024 HealthBuddy. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <div id="chatbot-widget" class="chatbot-widget">
+    <button class="chatbot-toggle" onclick="toggleHealthChat()"><i class="fas fa-comments"></i><span class="chatbot-badge">2</span></button>
+  </div>
+
+  <!-- Health Assistant Chat Window -->
+  <div id="health-chat-window" class="chat-window hidden">
+    <div class="chat-header">
+      <div class="header-content">
+        <div class="logo">🏥</div>
+        <div class="header-text"><h3>HealthBuddy</h3><p class="subtitle">AI Health Assistant</p></div>
+      </div>
+      <div class="status-indicator"><span class="status-dot"></span><span class="status-text">Online</span></div>
+      <button class="close-chat" onclick="toggleHealthChat()"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="health-chat-box" class="chat-box">
+      <div class="welcome-message"><div class="welcome-icon">👋</div><p>Hello! I'm HealthBuddy, your friendly health assistant. How can I help you today?</p></div>
+    </div>
+    <div class="input-container">
+      <div class="input-wrapper">
+        <input id="health-user-input" type="text" placeholder="Ask me anything about health..." autocomplete="off"/>
+        <button id="health-send-button" onclick="sendHealthMessage()" class="send-button"><span class="send-icon">➤</span></button>
+      </div>
+      <div id="health-loading-indicator" class="loading-indicator hidden">
+        <div class="typing-dots"><span></span><span></span><span></span></div>
+        <span class="typing-text">HealthBuddy is typing...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mental Health Counselor Chat Window -->
+  <div id="counselor-chat-window" class="chat-window hidden counselor-window">
+    <div class="chat-header">
+      <div class="header-content">
+        <div class="logo">🧠</div>
+        <div class="header-text"><h3>MindBuddy</h3><p class="subtitle">Mental Health Counselor</p></div>
+      </div>
+      <div class="status-indicator"><span class="status-dot"></span><span class="status-text">Online</span></div>
+      <button class="close-chat" onclick="toggleCounselorChat()"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="counselor-chat-box" class="chat-box">
+      <div class="welcome-message"><div class="welcome-icon">👋</div><p>Hi there! I'm MindBuddy, your compassionate mental health counselor. I'm here to listen and support you. What's on your mind?</p></div>
+    </div>
+    <div class="input-container">
+      <div class="input-wrapper">
+        <input id="counselor-user-input" type="text" placeholder="Share your thoughts or concerns..." autocomplete="off"/>
+        <button id="counselor-send-button" onclick="sendCounselorMessage()" class="send-button"><span class="send-icon">➤</span></button>
+      </div>
+      <div id="counselor-loading-indicator" class="loading-indicator hidden">
+        <div class="typing-dots"><span></span><span></span><span></span></div>
+        <span class="typing-text">MindBuddy is typing...</span>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
