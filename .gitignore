@@ -1,2 +1,40 @@
+# Environment variables
 .env
-Documentations
+.env.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# User data
+backend/data/users.json
+backend/data/*.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
