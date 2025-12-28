@@ -12,36 +12,14 @@ NOMINATIM_EMAIL = os.getenv("NOMINATIM_EMAIL", "")
 
 
 def search_nearby_facilities(location: str, search_type: str = "all", radius: int = 5000):
-    """
-    Search for nearby pharmacies and hospitals using Overpass API (OpenStreetMap)
-    
-    Args:
-        location: Address or location name to search around
-        search_type: "all", "pharmacy", or "hospital"
-        radius: Search radius in meters (default: 5000m)
-    
-    Returns:
-        Dictionary with success status, location name, and results list
-    """
     try:
         location = location.strip()
         search_type = search_type.lower()
         
         if not location:
-            return {
-                "success": False,
-                "error": "Location is required",
-                "results": []
-            }
+            return {"success": False, "error": "Location is required", "results": []}
         
-        # Use Nominatim to geocode the location
-        geocode_params = {
-            "q": location,
-            "format": "json",
-            "limit": 1
-        }
-        
-        # Add email if provided for better rate limiting
+        geocode_params = {"q": location, "format": "json", "limit": 1}
         if NOMINATIM_EMAIL:
             geocode_params["email"] = NOMINATIM_EMAIL
         
@@ -91,20 +69,7 @@ def search_nearby_facilities(location: str, search_type: str = "all", radius: in
 
 
 def search_overpass(lat: float, lon: float, facility_type: str, radius: int = 5000):
-    """
-    Search using Overpass API for pharmacies or hospitals
-    
-    Args:
-        lat: Latitude of search center
-        lon: Longitude of search center
-        facility_type: "pharmacy" or "hospital"
-        radius: Search radius in meters
-    
-    Returns:
-        List of facilities with details
-    """
     try:
-        # Define the search query based on facility type
         if facility_type == "pharmacy":
             query = f"""
             [bbox:-90,-180,90,180];
@@ -177,17 +142,7 @@ def search_overpass(lat: float, lon: float, facility_type: str, radius: int = 50
 
 
 def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    """
-    Calculate distance between two coordinates using Haversine formula (in km)
-    
-    Args:
-        lat1, lon1: First coordinate (latitude, longitude)
-        lat2, lon2: Second coordinate (latitude, longitude)
-    
-    Returns:
-        Distance in kilometers
-    """
-    R = 6371  # Earth radius in kilometers
+    R = 6371
     
     lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
     dlat = lat2 - lat1

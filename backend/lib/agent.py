@@ -36,12 +36,7 @@ def chat_with_gpt(prompt):
         ],
     )
     reply = response.choices[0].message.content
-    
-    # Format response with better structure
-    formatted_response = {
+    return {
         "text": reply,
         "type": "health"
     }
-    
-    return formatted_response
-

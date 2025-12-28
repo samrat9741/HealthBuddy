@@ -20,6 +20,15 @@
         <li><a href="#nearme" class="nav-link">Near Me</a></li>
         <li><a href="#about" class="nav-link">About</a></li>
       </ul>
+      <div class="nav-auth">
+        <button class="nav-auth-btn" id="authBtn" onclick="handleAuthClick()">Login</button>
+        <div class="user-menu hidden" id="userMenu">
+          <div class="user-info">
+            <div class="user-name" id="userName"></div>
+          </div>
+          <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+      </div>
       <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
     </div>
   </nav>

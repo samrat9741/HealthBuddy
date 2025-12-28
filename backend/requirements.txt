@@ -1,6 +1,6 @@
 openai
 requests
-langchain
-dotenv
+python-dotenv
 fastapi
 uvicorn
+pydantic

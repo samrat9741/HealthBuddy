@@ -33,7 +33,6 @@ client = OpenAI(
 )
 
 def chat_with_counselor(prompt):
-    """Chat with the mental health counselor"""
     response = client.chat.completions.create(
         model="nvidia/nemotron-3-nano-30b-a3b:free",
         messages=[
@@ -42,11 +41,7 @@ def chat_with_counselor(prompt):
         ],
     )
     reply = response.choices[0].message.content
-    
-    # Format response with better structure
-    formatted_response = {
+    return {
         "text": reply,
         "type": "counselor"
     }
-    
-    return formatted_response

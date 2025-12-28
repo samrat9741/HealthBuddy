@@ -1,29 +1,67 @@
 let healthWelcomeRemoved = false, counselorWelcomeRemoved = false, currentSearchType = 'all';
 
+// Authentication functions
+function handleAuthClick() {
+  const user = localStorage.getItem('user');
+  if (user) {
+    // User is logged in, toggle user menu
+    document.getElementById('userMenu').classList.toggle('hidden');
+  } else {
+    // User is not logged in, redirect to auth page
+    window.location.href = 'auth.html';
+  }
+}
+
+function logout() {
+  if (confirm('Are you sure you want to logout?')) {
+    localStorage.removeItem('user');
+    document.getElementById('authBtn').textContent = 'Login';
+    document.getElementById('userMenu').classList.add('hidden');
+    alert('You have been logged out.');
+    window.location.href = 'index.html';
+  }
+}
+
+function updateAuthUI() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authBtn = document.getElementById('authBtn');
+  const userMenu = document.getElementById('userMenu');
+
+  if (user) {
+    authBtn.textContent = '👤 Account';
+    document.getElementById('userName').textContent = user.name;
+    userMenu.classList.remove('hidden');
+  } else {
+    authBtn.textContent = 'Login';
+    userMenu.classList.add('hidden');
+  }
+}
+
+// Initialize auth UI on page load
+document.addEventListener('DOMContentLoaded', updateAuthUI);
+
+// Close user menu when clicking outside
+document.addEventListener('click', (e) => {
+  const authBtn = document.getElementById('authBtn');
+  const userMenu = document.getElementById('userMenu');
+  if (!e.target.closest('.nav-auth')) {
+    userMenu.classList.add('hidden');
+  }
+});
+
 function formatMessageContent(text) {
   if (!text) return '';
   
-  // Convert line breaks to HTML
   let formatted = text
     .replace(/\n\n+/g, '</p><p>')
     .replace(/\n/g, '<br>');
   
-  // Format bullet points (- item)
   formatted = formatted.replace(/^- /gm, '• ');
-  
-  // Format numbered lists (1. item)
   formatted = formatted.replace(/^(\d+)\. /gm, '<strong>$1.</strong> ');
-  
-  // Format bold text (**text**)
   formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-  
-  // Format italic text (*text*)
   formatted = formatted.replace(/\*([^*]+)\*/g, '<em>$1</em>');
   
-  // Wrap in paragraph if not already wrapped
   if (!formatted.includes('<p>')) {
-    formatted = '<p>' + formatted + '</p>';
-  } else {
     formatted = '<p>' + formatted + '</p>';
   }
   

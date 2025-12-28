@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthBuddy - Login & Register</title>
+  <link rel="stylesheet" href="ctyle.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .auth-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+    }
+
+    .auth-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      padding: 40px;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .auth-logo {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .auth-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+      margin: 10px 0;
+    }
+
+    .auth-subtitle {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 25px;
+      border-bottom: 2px solid #eee;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: none;
+      font-size: 16px;
+      font-weight: 600;
+      color: #999;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .auth-tab.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-input.error {
+      border-color: #ff6b6b;
+    }
+
+    .phone-input-wrapper {
+      display: flex;
+      gap: 8px;
+    }
+
+    .country-code {
+      width: 70px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .phone-number {
+      flex: 1;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .success-message {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 13px;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .auth-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .auth-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .auth-footer a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .password-toggle {
+      position: relative;
+    }
+
+    .password-toggle-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #f5f5f5;
+    }
+
+    @media (max-width: 600px) {
+      .auth-card {
+        padding: 30px 20px;
+      }
+
+      .auth-title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="back-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i></button>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">🏥</div>
+        <h1 class="auth-title">HealthBuddy</h1>
+        <p class="auth-subtitle">Your Trusted Healthcare Partner</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+        <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" style="display: block;">
+        <div class="success-message" id="loginSuccess"></div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" id="loginPhone" class="form-input" placeholder="+1 (555) 123-4567" required/>
+          <div class="error-message" id="loginPhoneError"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="password-toggle">
+            <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required/>
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('loginPassword')">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="error-message" id="loginPasswordError"></div>
+        </div>
+
+        <button type="button" class="auth-btn" onclick="handleLogin()">
+          <span id="loginBtnText">Login</span>
+        </button>
+
+        <div class="auth-footer">
+          Don't have an account? <a onclick="switchAuthTab('register')">Register here</a>
+        </div>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" style="display: none;">
+        <div class="success-message" id="registerSuccess"></div>
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="registerName" class="form-input" placeholder="John Doe" required/>
+          <div class="error-message" id="registerNameError"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" id="registerPhone" class="form-input" placeholder="+1 (555) 123-4567" required/>
+          <div class="error-message" id="registerPhoneError"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="password-toggle">
+            <input type="password" id="registerPassword" class="form-input" placeholder="At least 6 characters" required/>
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('registerPassword')">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="error-message" id="registerPasswordError"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Confirm Password</label>
+          <div class="password-toggle">
+            <input type="password" id="registerConfirm" class="form-input" placeholder="Re-enter your password" required/>
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('registerConfirm')">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="error-message" id="registerConfirmError"></div>
+        </div>
+
+        <button type="button" class="auth-btn" onclick="handleRegister()">
+          <span id="registerBtnText">Create Account</span>
+        </button>
+
+        <div class="auth-footer">
+          Already have an account? <a onclick="switchAuthTab('login')">Login here</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:8000";
+
+    function switchAuthTab(tab) {
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const tabs = document.querySelectorAll('.auth-tab');
+
+      tabs.forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (tab === 'login') {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+      } else {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+      }
+
+      // Clear errors
+      clearAllErrors();
+    }
+
+    function togglePasswordVisibility(inputId) {
+      const input = document.getElementById(inputId);
+      const btn = event.target.closest('.password-toggle-btn');
+      
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+      } else {
+        input.type = 'password';
+        btn.innerHTML = '<i class="fas fa-eye"></i>';
+      }
+    }
+
+    function clearAllErrors() {
+      document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+      document.querySelectorAll('.success-message').forEach(el => el.classList.remove('show'));
+      document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
+    }
+
+    function showError(fieldId, message) {
+      const errorEl = document.getElementById(fieldId);
+      const inputEl = document.getElementById(fieldId.replace('Error', ''));
+      
+      if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.classList.add('show');
+      }
+      if (inputEl) {
+        inputEl.classList.add('error');
+      }
+    }
+
+    function showSuccess(messageId, message) {
+      const successEl = document.getElementById(messageId);
+      if (successEl) {
+        successEl.textContent = message;
+        successEl.classList.add('show');
+      }
+    }
+
+    async function handleLogin() {
+      clearAllErrors();
+
+      const phone = document.getElementById('loginPhone').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      // Validation
+      if (!phone) {
+        showError('loginPhoneError', 'Phone number is required');
+        return;
+      }
+      if (!password) {
+        showError('loginPasswordError', 'Password is required');
+        return;
+      }
+
+      const btn = event.target;
+      const btnText = btn.querySelector('#loginBtnText');
+      const originalText = btnText.textContent;
+      
+      try {
+        btn.disabled = true;
+        btnText.innerHTML = '<span class="loading-spinner"></span>Logging in...';
+
+        const response = await fetch(`${API_URL}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          showSuccess('loginSuccess', data.message);
+          // Store user info in localStorage
+          localStorage.setItem('user', JSON.stringify(data.user));
+          
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        } else {
+          if (data.message.includes('Phone')) {
+            showError('loginPhoneError', data.message);
+          } else if (data.message.includes('password')) {
+            showError('loginPasswordError', data.message);
+          } else {
+            showError('loginPhoneError', data.message);
+          }
+        }
+      } catch (error) {
+        showError('loginPhoneError', 'Connection error. Make sure backend is running.');
+        console.error('Error:', error);
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = originalText;
+      }
+    }
+
+    async function handleRegister() {
+      clearAllErrors();
+
+      const name = document.getElementById('registerName').value.trim();
+      const phone = document.getElementById('registerPhone').value.trim();
+      const password = document.getElementById('registerPassword').value;
+      const confirm = document.getElementById('registerConfirm').value;
+
+      // Validation
+      if (!name) {
+        showError('registerNameError', 'Full name is required');
+        return;
+      }
+      if (!phone) {
+        showError('registerPhoneError', 'Phone number is required');
+        return;
+      }
+      if (!password) {
+        showError('registerPasswordError', 'Password is required');
+        return;
+      }
+      if (password.length < 6) {
+        showError('registerPasswordError', 'Password must be at least 6 characters');
+        return;
+      }
+      if (password !== confirm) {
+        showError('registerConfirmError', 'Passwords do not match');
+        return;
+      }
+
+      const btn = event.target;
+      const btnText = btn.querySelector('#registerBtnText');
+      const originalText = btnText.textContent;
+
+      try {
+        btn.disabled = true;
+        btnText.innerHTML = '<span class="loading-spinner"></span>Creating account...';
+
+        const response = await fetch(`${API_URL}/api/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, phone, password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          showSuccess('registerSuccess', data.message);
+          
+          // Reset form
+          document.getElementById('registerForm').reset();
+          
+          // Switch to login after 2 seconds
+          setTimeout(() => {
+            document.querySelectorAll('.auth-tab')[0].click();
+          }, 1500);
+        } else {
+          if (data.message.includes('Phone')) {
+            showError('registerPhoneError', data.message);
+          } else if (data.message.includes('password')) {
+            showError('registerPasswordError', data.message);
+          } else {
+            showError('registerNameError', data.message);
+          }
+        }
+      } catch (error) {
+        showError('registerNameError', 'Connection error. Make sure backend is running.');
+        console.error('Error:', error);
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = originalText;
+      }
+    }
+
+    function goHome() {
+      window.location.href = 'index.html';
+    }
+
+    // Check if user is already logged in
+    window.addEventListener('load', () => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
+</body>
+</html>
